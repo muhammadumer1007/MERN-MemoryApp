@@ -1,38 +1,79 @@
-.App {
-  text-align: center;
+/* Pink Button */
+.btnPink {
+    padding: 5px 7px;
+    color: palevioletred;
+    border-radius: 5px;
+    background-color: #fff;
+    border: 2px solid palevioletred;
+    outline: none;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.btnPink:hover {
+    background-color: palevioletred;
+    color: #fff;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+/* textPink */
+.textPink {
+    color: palevioletred;
+    text-decoration: none;
+}
+
+/* Header */
+/* Logo */
+.logo {
+    height: 40px;
+}
+
+@media only screen and (max-width: 600px) {
+    .logo {
+        height: 25px;
+    }
   }
+
+/* searchContainer */
+.searchContainer {
+    background-color: #fff !important;
+    padding: 20px 10px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Post */
+
+.cardFooter {
+    margin-top: 10px;
+    padding: 5px 20px 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.App-link {
-  color: #61dafb;
+.likeIcon {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.likeIcon p {
+    margin-left: 5px;
+}
+
+/* deleteBtn */
+.deleteBtn {
+    text-decoration: underline;
+    color: red;
+    cursor: pointer;
+}
+
+/* card */
+.card {
+    border-radius: 5px;
+}
+
+/* SPINNER START */
+
+.SpinnerPink {
+    color: palevioletred !important;
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
+  
+  /* SPINNER END */
+  
