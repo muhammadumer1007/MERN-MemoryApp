@@ -8,6 +8,11 @@ import axios from 'axios'
 
 function App() {
 
+  const [user, setuser] = useState('Admin')
+  const [currentId, setcurrentId] = useState(null)
+  const [isEdit, setisEdit] = useState(false)
+  const [posts, setposts] = useState([])
+  const [loader, setloader] = useState(false)
   //Add Post Form
   const [addMemoryFormData, setaddMemoryFormData] = useState({
     title: '',
@@ -23,61 +28,88 @@ function App() {
   //   setaddMemoryFormData({ ...addMemoryFormData, ...data })
   // }
 
-
-  const addMemoryFormOnSubmit = (e) => {
-    e.preventDefault()
-    try {
-      axios.post('http://localhost:5000/posts', addMemoryFormData)
-        .then((res) => {
-          console.log(res.data)
-        }).catch((error) => {
-          console.log(error)
-        })
-    } catch (error) {
-      console.log(error);
-    }
-    console.log(addMemoryFormData);
+  const clear = () => {
     setaddMemoryFormData({
       title: '',
       description: '',
-      creator: 'Admin',
+      creator: user,
       tags: '',
       selectedFiles: ''
     })
+    setcurrentId(null)
+    setisEdit(false)
+  }
+
+  const addMemoryFormOnSubmit = (e) => {
+    e.preventDefault()
+
+    try {
+      if (isEdit) {
+        Api.EditPost(addMemoryFormData, currentId).then(() => fetchData())
+      }
+      else {
+        Api.createPost(addMemoryFormData).then(() => fetchData())
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    clear()
   }
 
   //Fetch Data
-  const [posts, setposts] = useState([])
-  const [loader, setloader] = useState(false)
+
 
   const fetchData = async () => {
+    setloader(true)
     try {
-      setloader(true)
-      axios.get('http://localhost:5000/posts')
-        .then((res) => {
-          setposts(res.data)
-          console.log(res.data)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      let { data } = await Api.fetchPosts()
+      setposts(data)
     }
     catch (error) {
       console.log(error)
     }
-    setloader(false)
+    finally {
+      setloader(false)
+    }
+    clear()
+  }
 
+  // Edit POst
+
+  const editpost = (id) => {
+    setcurrentId(id)
+    let postToBeEdited = posts.find((posts) => posts._id == id)
+    setisEdit(true)
+    let { title, description, tags, selectedFiles } = postToBeEdited
+    setaddMemoryFormData({
+      title: title,
+      description: description,
+      creator: user,
+      tags: tags,
+      selectedFiles: selectedFiles
+    })
   }
   useEffect(() => {
     fetchData()
   }, [])
 
 
+  const deletePost = (id) => {
+    try {
+      Api.deletePost(id).then(() => fetchData())
+    } catch (error) {
+      console.log(error);
+    }
+    fetchData()
+  }
 
 
   return (
     <>
-      <GlobalContext.Provider value={{ addMemoryFormData, setaddMemoryFormData, addMemoryFormOnSubmit, posts, loader }}>
+      <GlobalContext.Provider value={{
+        addMemoryFormData, setaddMemoryFormData, addMemoryFormOnSubmit,
+        posts, loader, editpost, isEdit, currentId, deletePost
+      }}>
         <Header />
         <MainContainer />
       </GlobalContext.Provider>

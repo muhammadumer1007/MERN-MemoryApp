@@ -68,6 +68,10 @@
 .card {
     border-radius: 5px;
 }
+/* post-img */
+.post-img{
+    opacity: 8 !important;
+}
 
 /* SPINNER START */
 

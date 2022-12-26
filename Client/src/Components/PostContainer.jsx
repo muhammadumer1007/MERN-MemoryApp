@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { GlobalContext } from '../Context/GlobalContext'
-import Posts from './Posts'
+import Posts from './/Post/Posts'
 import Spinner from './Spinner'
 
 function PostContainer() {
